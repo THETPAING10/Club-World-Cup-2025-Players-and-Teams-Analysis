@@ -118,7 +118,113 @@ order by [Goal Diff] desc
 
 <img width="498" height="119" alt="BiggestWin1" src="https://github.com/user-attachments/assets/c9a8e9c0-9c7e-4a09-971d-d17d6519806e" />
 
+***
 
+### 8. The team with the biggest goal difference lose match
+
+
+````sql
+
+select top 1 
+ Home_Team,Away_Team,Home_Goals,Away_Goals,
+ abs(Home_Goals - Away_Goals) as 'Goal Diff',
+ case 
+ when Home_Goals>Away_Goals then Away_Team
+ else Home_Team
+ end as 'Losing_Team'
+from Matches
+order by [Goal Diff] desc
+````
+
+**Result**
+
+<img width="498" height="119" alt="Biggest Lost" src="https://github.com/user-attachments/assets/b3b2c5cc-ea01-4861-87e9-ea3cda8a2159" />
+
+***
+### 9. The Match with the most attandence 
+
+````sql
+
+select top 1 
+Date,Home_Team, Away_Team, Home_Goals,Away_Goals,Result,Venue,Attendance
+from Matches
+order by Attendance desc
+
+````
+
+**Result**
+
+<img width="657" height="116" alt="Most Attandence" src="https://github.com/user-attachments/assets/51843592-084e-4bbc-9599-da7a4dda0bc1" />
+
+***
+
+### 10. Top 10 Goal Scorer 
+
+````sql
+
+select top 10
+P.Player_Name as 'Plyaer Name',
+T.TeamName as 'Team Name',
+P.Nationality,
+P.Goals,
+P.Appearances
+from PlayerStats P
+left join TeamStats  T on P.TeamID = T.TeamID
+order by P.Goals desc
+
+````
+
+**Result**
+
+<img width="498" height="206" alt="TopGoalScoring" src="https://github.com/user-attachments/assets/5398c7cb-c7fd-4527-9302-2a3575775376" />
+
+***
+
+### 11. Top 10 Assit Players
+
+````sql
+
+select top 10
+P.Player_Name as 'Plyaer Name',
+T.TeamName as 'Team Name',
+P.Nationality,
+P.Assists,
+P.Appearances
+from PlayerStats P
+left join TeamStats  T on P.TeamID = T.TeamID
+order by P.Assists desc
+
+````
+
+**Result**
+
+<img width="657" height="214" alt="Top Assist" src="https://github.com/user-attachments/assets/65f503c2-c81b-49e8-853c-7f2d2b02120b" />
+
+***
+
+### 12. Top 10 Goals Involvement Players
+
+````sql
+
+select top 10
+P.Player_Name,
+T.TeamName,
+P.Goals,
+P.Assists,
+(SUM(P.Goals) + sum(P.Assists) ) as 'Goals Invovement'
+from PlayerStats P
+left join TeamStats  T on P.TeamID = T.TeamID
+group by P.Player_Name,T.TeamName,P.Goals,P.Assists
+order by [Goals Invovement] desc
+
+````
+
+**Result**
+
+<img width="657" height="214" alt="Top Golas Involvement" src="https://github.com/user-attachments/assets/53563280-1f9c-44ba-86d3-64ae5a945a8b" />
+
+
+***
 
 
 
